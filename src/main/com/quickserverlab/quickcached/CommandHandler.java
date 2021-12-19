@@ -426,7 +426,7 @@ public class CommandHandler implements ClientBinaryHandler, ClientEventHandler {
 			throw new NullPointerException("Cache impl class not specified!");
 		}
 		try {
-			cache = (CacheInterface) Class.forName(implClass).newInstance();
+			cache = (CacheInterface) Class.forName(implClass).getDeclaredConstructor().newInstance();
 		} catch (Exception ex) {
 			Logger.getLogger(CommandHandler.class.getName()).log(Level.SEVERE, null, ex);
 			System.exit(-1);

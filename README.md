@@ -8,6 +8,14 @@ QuickCached is an in-memory key-value store for small chunks of arbitrary data (
 QuickCached is simple yet powerful. Its simple design promotes quick deployment, ease of development, and solves many problems facing large data caches. 
 
 
+Build
+---------------------
+$ ant
+
+API
+---------------------
+**UPDATE** is not supported for ref based cache (i.e. ConcurrentHashMap, SoftReferenceMap, and WhirlycottCache).
+
 Website
 ---------------------
  * https://github.com/QuickServerLab/QuickCached

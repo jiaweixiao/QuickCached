@@ -60,6 +60,7 @@ public class SoftReferenceMapImpl extends BaseCacheImpl {
 				long timespent = 0;
 				long timeToSleep = 0;
 				long stime = 0;
+				long mtime = 0;
 				long etime = 0;
 				while (true) {
 					timeToSleep = tunerSleeptime * 1000 - timespent;
@@ -80,10 +81,12 @@ public class SoftReferenceMapImpl extends BaseCacheImpl {
 						Logger.getLogger(SoftReferenceMapImpl.class.getName()).log(
 							Level.SEVERE, null, ex);
 					}
-					
+					mtime = System.currentTimeMillis();
+					logger.log(Level.FINE, "Purge operation {0}ms.", mtime - stime);
 					processQueue();
 					
 					etime = System.currentTimeMillis();
+					logger.log(Level.FINE, "Process reference queue {0}ms.", etime - mtime);
 					timespent = etime - stime;
 				}
 			}

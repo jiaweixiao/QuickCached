@@ -147,7 +147,7 @@ public class TextCommandProcessor {
 		String cmd = cmdData[0];
 		String key = cmdData[1];
 		
-		if(QuickCached.DEBUG==false) {
+		if(QuickCached.DEBUG==true) {
 			logger.log(Level.FINE, "cmd: {0}, key: {1}", new Object[]{cmd, key});
 		}
 
@@ -216,7 +216,7 @@ public class TextCommandProcessor {
 
 		for (int i = 1; i < cmdData.length; i++) {
 			key = cmdData[i];
-			if(QuickCached.DEBUG==false) {
+			if(QuickCached.DEBUG==true) {
 				logger.log(Level.FINE, "cmd: {0}, key: {1}", new Object[]{cmd, key});
 			}
 			DataCarrier dc = (DataCarrier) cache.get(key);
@@ -407,7 +407,7 @@ public class TextCommandProcessor {
 			throws SocketTimeoutException, IOException, CacheException {
 		Data data = (Data) handler.getClientData();
 		
-		if(QuickCached.DEBUG==false) {
+		if(QuickCached.DEBUG==true) {
 			logger.log(Level.FINE, "cmd: {0}, key: {1}", new Object[]{data.getCmd(), data.getKey()});
 		}
 
@@ -570,7 +570,7 @@ public class TextCommandProcessor {
 		if(handler.getCommunicationLogging() || QuickCached.DEBUG) {
 			logger.log(Level.FINE, "S: {0}", new String(data, HexUtil.getCharset()));
 		} else {
-			logger.log(Level.FINE, "S: {0} bytes", data.length);
+			// logger.log(Level.FINE, "S: {0} bytes", data.length);
 		}
 		handler.sendClientBinary(data);
 	}

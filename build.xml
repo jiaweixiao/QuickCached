@@ -6,7 +6,7 @@
 	<property name="test.build.dir"  value="build/testcases" />
 	<property name="client.build.dir"  value="build/clientcases" />
 	<property name="dist.dir"   value="dist" />
-	<property name="flag.debug"   value="true" />
+	<property name="flag.debug"   value="false" />
 
 	<target name="clean">
 		<!--delete dir="${build.dir}" /-->

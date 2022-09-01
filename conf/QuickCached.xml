@@ -79,8 +79,8 @@
 
 
 	<application-configuration>
-		<prompt-type>gui</prompt-type>
-		<!--<prompt-type>console</prompt-type>-->
+		<prompt-type>console</prompt-type>
+		<!--<prompt-type>gui</prompt-type>-->
 
 		<property>
 			<property-name>CHARSET_TO_USE</property-name>
@@ -101,13 +101,13 @@
 		<property>
 			<property-name>FLUSH_ON_LOW_MEMORY_PERCENT</property-name>
 			<!-- 0.96 = 96%; will call flush if reached; make it blank to skip this-->
-			<property-value>0.96</property-value>
+			<property-value></property-value>
 		</property>	
 
 		<property>
 			<property-name>GC_CALL_ON_LOW_MEMORY_PERCENT</property-name>
 			<!-- 0.90 = 90%; will call flush if reached; make it blank to skip this-->
-			<property-value>0.90</property-value>
+			<property-value></property-value>
 		</property>	
 		<property>
 			<property-name>GC_CALL_ON_LOW_MEMORY_POLLING_INTERVAL_MIN</property-name>

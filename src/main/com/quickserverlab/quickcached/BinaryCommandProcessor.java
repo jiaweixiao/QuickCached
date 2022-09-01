@@ -46,7 +46,7 @@ public class BinaryCommandProcessor {
 		}
 
 		String opcode = command.getHeader().getOpcode();
-		if (QuickCached.DEBUG == false) {
+		if (QuickCached.DEBUG) {
 			logger.log(Level.FINE, "opcode: {0}, key: {1}", new Object[]{opcode, command.getKey()});
 		}
 
@@ -612,15 +612,15 @@ public class BinaryCommandProcessor {
 		if (QuickCached.DEBUG) {
 			logger.log(Level.FINE, "Res BinaryPacket: {0}", binaryPacket);
 		} else {
-			ResponseHeader rh = (ResponseHeader) binaryPacket.getHeader();
-			logger.log(Level.FINE, "S: Status {0}", rh.getStatus());
+			// ResponseHeader rh = (ResponseHeader) binaryPacket.getHeader();
+			// logger.log(Level.FINE, "S: Status {0}", rh.getStatus());
 		}
 		byte data[] = binaryPacket.toBinaryByte();
 		if (handler.getCommunicationLogging() || QuickCached.DEBUG) {
 			logger.log(Level.FINE, "S: {0}", new String(data, HexUtil.getCharset()));
 			logger.log(Level.FINE, "H: {0}", HexUtil.encode(new String(data, HexUtil.getCharset())));
 		} else {
-			logger.log(Level.FINE, "S: {0} bytes", data.length);
+			// logger.log(Level.FINE, "S: {0} bytes", data.length);
 		}
 
 		handler.sendClientBinary(data);

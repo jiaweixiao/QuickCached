@@ -13,6 +13,7 @@ public class SetupLoggingHook implements ServerHook {
 
 	private static boolean init;
 	private static boolean makeLogFile;
+	private static String logPath = "default";
 
 	public String info() {
 		return "Init Server Hook to setup logging.";
@@ -45,8 +46,10 @@ public class SetupLoggingHook implements ServerHook {
 				logger.setLevel(Level.FINEST);
 
 				if(isMakeLogFile()) {
-					txtLog = new FileHandler("log/QuickCached_"+quickserver.getPort()+"_%u%g.txt",
-						1024*1024, 100, true);
+					if (logPath.equals("default")) {
+						logPath = "log/QuickCached_"+quickserver.getPort()+"_%u%g.txt";
+					}
+					txtLog = new FileHandler(logPath, 1024*1024, 100, true);
 					txtLog.setLevel(Level.FINEST);
 					txtLog.setFormatter(new SimpleTextFormatter());
 					logger.addHandler(txtLog);
@@ -71,5 +74,9 @@ public class SetupLoggingHook implements ServerHook {
 
 	public static void setMakeLogFile(boolean flag) {
 		makeLogFile = flag;
+	}
+
+	public static void setLogPath(String path) {
+		logPath = path;
 	}
 }

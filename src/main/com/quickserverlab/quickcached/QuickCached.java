@@ -40,6 +40,14 @@ public class QuickCached {
 						}
 					}
 					DOMConfigurator.configure("conf/log4j_debug.xml");
+				} else if (arg.equals("-o")) {
+                    if(i < args.length) {
+                        SetupLoggingHook.setLogPath(args[i]);
+                    } else {
+                        System.out.println("Error: Bad argument passed - " + arg);
+                        printHelp();
+                        return;
+                    }
 				} else {
 					DOMConfigurator.configure("conf/log4j.xml");
 				}
@@ -79,7 +87,8 @@ public class QuickCached {
         //Be verbose during the event loop; print out errors and warnings.
         //-vv
         //Be even more verbose; same as -v but also print client commands and responses.
-
+        //-o <log>
+        //Log file path.
         i = 0;
         while (i < args.length) {
             arg = args[i];
@@ -98,7 +107,7 @@ public class QuickCached {
                 printHelp();
 
                 return;
-            } else if (arg.equals("-v") || arg.equals("-vv")) {
+            } else if (arg.equals("-o") || arg.equals("-v") || arg.equals("-vv")) {
 				//nothing here
 			} else {
                 //print help - TODO
@@ -169,8 +178,10 @@ public class QuickCached {
 		System.out.println("-p <num>      TCP port number to listen on (default: 11211)");
 		System.out.println("-l <ip_addr>  interface to listen on (default: INADDR_ANY, all addresses)");
 		System.out.println("-c <num>      max simultaneous connections");
-		System.out.println("-v            verbose (print errors/warnings while in event loop). Creates logs in log folder");
-		System.out.println("-vv           very verbose (also print client commands/reponses). Debut Mode");
+		System.out.println("-v            verbose (print errors/warnings while in event loop).");
+        System.out.println("              Creates logs in ./log or path specified with -o option");
+		System.out.println("-vv           very verbose (also print client commands/reponses). Debug Mode");
+		System.out.println("-o <log>      log file path");
 		System.out.println("-h            print this help and exit");
 	}
 }

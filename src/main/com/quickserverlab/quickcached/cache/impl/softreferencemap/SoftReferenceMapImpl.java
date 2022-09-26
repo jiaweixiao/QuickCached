@@ -97,18 +97,13 @@ public class SoftReferenceMapImpl extends BaseCacheImpl {
 
 	public void purgeOperation() {
 		try {
-			Iterator iterator = mapTtl.keySet().iterator();
-			String key = null;
-			Date expTime;
 			Date currentTime = new Date();
-			while (iterator.hasNext()) {
-				key = (String) iterator.next();
-				expTime = (Date) mapTtl.get(key);
-				if(expTime==null) {
-					continue;
-				}
 
-				if (expTime.before(currentTime)) {
+			mapTtl.keySet().parallelStream().forEach(i -> {
+				String key = (String) i;
+				Date expTime = (Date) mapTtl.get(key);
+
+				if (expTime!=null && expTime.before(currentTime)) {
 					mapTtl.remove(key);
 					map.remove(key);
 					while(true) {
@@ -118,8 +113,7 @@ public class SoftReferenceMapImpl extends BaseCacheImpl {
 					}
 					expired++;
 				}
-				Thread.yield();
-			}
+			});
 		} catch (Exception e) {
 			logger.log(Level.WARNING, "Error: " + e, e);
 		}

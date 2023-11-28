@@ -8,9 +8,14 @@ QuickCached is an in-memory key-value store for small chunks of arbitrary data (
 QuickCached is simple yet powerful. Its simple design promotes quick deployment, ease of development, and solves many problems facing large data caches. 
 
 
-Build
+Build and Run
 ---------------------
-$ ant
+```bash
+export JAVA_HOME=/path/to/jdk>=8
+ant main_jar
+
+java -server -Dappname=QC1 -jar dist/QuickCached-Server.jar -h
+```
 
 API
 ---------------------

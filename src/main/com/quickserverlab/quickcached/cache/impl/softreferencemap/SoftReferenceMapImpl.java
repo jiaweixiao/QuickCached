@@ -62,6 +62,7 @@ public class SoftReferenceMapImpl extends BaseCacheImpl {
 				long stime = 0;
 				long mtime = 0;
 				long etime = 0;
+				long scount = 0;
 				while (true) {
 					timeToSleep = tunerSleeptime * 1000 - timespent;
 					if (timeToSleep > 0) {
@@ -75,6 +76,7 @@ public class SoftReferenceMapImpl extends BaseCacheImpl {
 					}
 
 					stime = System.currentTimeMillis();
+					scount = expired;
 					try {
 						purgeOperation();
 					} catch (Exception ex) {
@@ -83,10 +85,13 @@ public class SoftReferenceMapImpl extends BaseCacheImpl {
 					}
 					mtime = System.currentTimeMillis();
 					logger.log(Level.FINE, "Purge operation {0}ms.", mtime - stime);
+					logger.log(Level.FINE, "Expired kv: {}", expired - scount);
+					scount = evicted;
 					processQueue();
 					
 					etime = System.currentTimeMillis();
 					logger.log(Level.FINE, "Process reference queue {0}ms.", etime - mtime);
+					logger.log(Level.FINE, "Evicted kv: {}", evicted - scount);
 					timespent = etime - stime;
 				}
 			}

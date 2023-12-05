@@ -17,6 +17,11 @@ ant main_jar
 java -server -Dappname=QC1 -jar dist/QuickCached-Server.jar -h
 ```
 
+JVM options
+---------------------
+Please append `-XX:SoftRefLRUPolicyMSPerMB=0` to the jvm options at the start of QuickCached server when using SoftReference cache implementation.
+All Java Soft References to softly-reachable objects are not guaranteed to have been freed before the virtual machine throws an `OutOfMemoryError` as Java 1.3.1 introduced the jvm property `-XX:SoftRefLRUPolicyMSPerMB`. It defaults to 1000 (milliseconds), meaning that if there’s only 100MB available heap, the garbage collector will free references that have been used more than 100 seconds ago.
+
 API
 ---------------------
 **UPDATE** is not supported for ref based cache (i.e. ConcurrentHashMap, SoftReferenceMap, and WhirlycottCache).

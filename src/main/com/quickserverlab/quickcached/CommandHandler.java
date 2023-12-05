@@ -426,7 +426,16 @@ public class CommandHandler implements ClientBinaryHandler, ClientEventHandler {
 			throw new NullPointerException("Cache impl class not specified!");
 		}
 		try {
-			cache = (CacheInterface) Class.forName(implClass).getDeclaredConstructor().newInstance();
+			if (implClass.endsWith("SoftReferenceMapImpl")) {
+				int hardcache_size = 1000;
+				String hardcache_size_str = (String) config.get("SOFT_REF_HARDCACHE_SIZE");
+				if (hardcache_size_str != null) {
+					hardcache_size = Integer.parseInt(hardcache_size_str);
+				}
+				cache = (CacheInterface) Class.forName(implClass).getDeclaredConstructor(new Class[] {int.class}).newInstance(hardcache_size);
+			} else {
+				cache = (CacheInterface) Class.forName(implClass).getDeclaredConstructor().newInstance();
+			}
 		} catch (Exception ex) {
 			Logger.getLogger(CommandHandler.class.getName()).log(Level.SEVERE, null, ex);
 			System.exit(-1);

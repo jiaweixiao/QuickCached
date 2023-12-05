@@ -99,6 +99,12 @@
 		</property>
 
 		<property>
+			<property-name>SOFT_REF_HARDCACHE_SIZE</property-name>	
+			<!-- will set size of hard cache; blank value will use default size 1000-->
+			<property-value>1000000</property-value>
+		</property>
+
+		<property>
 			<property-name>FLUSH_ON_LOW_MEMORY_PERCENT</property-name>
 			<!-- 0.96 = 96%; will call flush if reached; make it blank to skip this-->
 			<property-value></property-value>

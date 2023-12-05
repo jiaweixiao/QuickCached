@@ -50,7 +50,9 @@ public class SoftReferenceMapImpl extends BaseCacheImpl {
 	
 	private Thread purgeThread = null;
 	
-	public SoftReferenceMapImpl() {
+	public SoftReferenceMapImpl(int hardcache_size) {
+		logger.log(Level.FINE, "Hardcache size: {0}", hardcache_size);
+		setHardSize(hardcache_size);
 		startPurgeThread();
 	}
 

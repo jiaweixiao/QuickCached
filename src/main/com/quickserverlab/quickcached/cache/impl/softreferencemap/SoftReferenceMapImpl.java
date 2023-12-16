@@ -41,7 +41,7 @@ public class SoftReferenceMapImpl extends BaseCacheImpl {
 	 */
 	private final ReferenceQueue queue = new ReferenceQueue();
 	
-	private int tunerSleeptime = 120;//in sec
+	private int tunerSleeptime = 7200;//in sec
 	
 	private final Object lock = new Object();
 	
@@ -77,6 +77,7 @@ public class SoftReferenceMapImpl extends BaseCacheImpl {
 						}
 					}
 
+					logger.log(Level.FINE, "Start purge...");
 					stime = System.currentTimeMillis();
 					scount = expired;
 					try {

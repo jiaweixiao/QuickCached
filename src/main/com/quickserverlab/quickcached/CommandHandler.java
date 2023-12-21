@@ -428,11 +428,17 @@ public class CommandHandler implements ClientBinaryHandler, ClientEventHandler {
 		try {
 			if (implClass.endsWith("SoftReferenceMapImpl")) {
 				int hardcache_size = 1000;
+				int tunersleep_time = 120;
 				String hardcache_size_str = (String) config.get("SOFT_REF_HARDCACHE_SIZE");
 				if (hardcache_size_str != null) {
 					hardcache_size = Integer.parseInt(hardcache_size_str);
 				}
-				cache = (CacheInterface) Class.forName(implClass).getDeclaredConstructor(new Class[] {int.class}).newInstance(hardcache_size);
+				String tunersleep_time_str = (String) config.get("SOFT_REF_TUNERSLEEP_TIME");
+				if (tunersleep_time_str != null) {
+					tunersleep_time = Integer.parseInt(tunersleep_time_str);
+				}
+				cache = (CacheInterface) Class.forName(implClass).getDeclaredConstructor(
+					new Class[] {int.class, int.class}).newInstance(hardcache_size, tunersleep_time);
 			} else {
 				cache = (CacheInterface) Class.forName(implClass).getDeclaredConstructor().newInstance();
 			}

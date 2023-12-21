@@ -99,9 +99,15 @@
 		</property>
 
 		<property>
-			<property-name>SOFT_REF_HARDCACHE_SIZE</property-name>	
+			<property-name>SOFT_REF_HARDCACHE_SIZE</property-name>
 			<!-- will set size of hard cache; blank value will use default size 1000-->
-			<property-value>1000000</property-value>
+			<property-value>1000</property-value>
+		</property>
+
+		<property>
+			<property-name>SOFT_REF_TUNERSLEEP_TIME</property-name>
+			<!-- will set interval of purge and process ref queue; blank value will use default 120 sec-->
+			<property-value>120</property-value>
 		</property>
 
 		<property>

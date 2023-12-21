@@ -41,7 +41,7 @@ public class SoftReferenceMapImpl extends BaseCacheImpl {
 	 */
 	private final ReferenceQueue queue = new ReferenceQueue();
 	
-	private int tunerSleeptime = 7200;//in sec
+	private static int tunerSleeptime = 120;//in sec
 	
 	private final Object lock = new Object();
 	
@@ -50,9 +50,14 @@ public class SoftReferenceMapImpl extends BaseCacheImpl {
 	
 	private Thread purgeThread = null;
 	
-	public SoftReferenceMapImpl(int hardcache_size) {
-		logger.log(Level.FINE, "Hardcache size: {0}", hardcache_size);
+	public SoftReferenceMapImpl(int hardcache_size, int tunersleep_time) {
+		logger.log(
+			Level.FINE,
+			String.format("Hardcache size: %d, Tunner sleep time: %d sec",
+				hardcache_size, tunersleep_time)
+		);
 		setHardSize(hardcache_size);
+		setTunerSleepTime(tunersleep_time);
 		startPurgeThread();
 	}
 
@@ -88,13 +93,13 @@ public class SoftReferenceMapImpl extends BaseCacheImpl {
 					}
 					mtime = System.currentTimeMillis();
 					logger.log(Level.FINE, "Purge operation {0}ms.", mtime - stime);
-					logger.log(Level.FINE, "Expired kv: {}", expired - scount);
+					logger.log(Level.FINE, "Expired kv: {0}", expired - scount);
 					scount = evicted;
 					processQueue();
 					
 					etime = System.currentTimeMillis();
 					logger.log(Level.FINE, "Process reference queue {0}ms.", etime - mtime);
-					logger.log(Level.FINE, "Evicted kv: {}", evicted - scount);
+					logger.log(Level.FINE, "Evicted kv: {0}", evicted - scount);
 					timespent = etime - stime;
 				}
 			}
@@ -238,6 +243,10 @@ public class SoftReferenceMapImpl extends BaseCacheImpl {
 
 	public static void setHardSize(int aHardSize) {
 		hardSize = aHardSize;
+	}
+
+	public static void setTunerSleepTime(int tunersleep_time) {
+		tunerSleeptime = tunersleep_time;
 	}
 
 	/**

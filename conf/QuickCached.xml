@@ -95,7 +95,8 @@
 			<!-- com.quickserverlab.quickcached.cache.impl.concurrenthashmap.ConcurrentHashMapImpl -->
 			<!-- com.quickserverlab.quickcached.cache.impl.softreferencemap.SoftReferenceMapImpl -->
 			
-			<property-value>com.quickserverlab.quickcached.cache.impl.softreferencemap.SoftReferenceMapImpl</property-value>
+<!--			<property-value>com.quickserverlab.quickcached.cache.impl.softreferencemap.SoftReferenceMapImpl</property-value>-->
+			<property-value>com.quickserverlab.quickcached.cache.impl.caffeine.CaffeineImpl</property-value>
 		</property>
 
 		<property>

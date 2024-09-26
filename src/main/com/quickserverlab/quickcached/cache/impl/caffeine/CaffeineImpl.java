@@ -6,7 +6,6 @@ import com.quickserverlab.quickcached.cache.impl.BaseCacheImpl;
 
 import java.io.*;
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
@@ -68,7 +67,8 @@ public class CaffeineImpl extends BaseCacheImpl {
         try {
             Caffeine<Object, Object> caffeineBuilder = Caffeine.newBuilder();
 
-            long maxSize = 10_000;
+            long maxSize = 1000_000;
+
             if (config != null) {
                 String maxSizeStr = config.getProperty("maxsize");
                 if (maxSizeStr != null) {
@@ -81,6 +81,8 @@ public class CaffeineImpl extends BaseCacheImpl {
                 }
             }
 
+            logger.info("maxsize: " + maxSize);
+
             caffeineBuilder.maximumSize(maxSize);
 
             // use the dedicated, system-wided scheduling thread
@@ -92,11 +94,7 @@ public class CaffeineImpl extends BaseCacheImpl {
                         @Override
                         // (key, value, currentTime)
                         public long expireAfterCreate(String s, CacheValue cacheValue, long l) {
-                            long millis = cacheValue.getCreationTime()
-                                    .plus(5, ChronoUnit.HOURS)
-                                    .minus(System.currentTimeMillis(), ChronoUnit.MILLIS)
-                                    .toEpochMilli();
-                            return TimeUnit.MILLISECONDS.toNanos(millis);
+                            return cacheValue.getDuration();
                         }
 
                         @Override
@@ -109,7 +107,11 @@ public class CaffeineImpl extends BaseCacheImpl {
                         public long expireAfterRead(String s, CacheValue cacheValue, long l, @org.checkerframework.checker.index.qual.NonNegative long l1) {
                             return l1;
                         }
-                    }).build();
+                    })
+                    .evictionListener((String key, CacheValue value, RemovalCause cause) -> {
+                        logger.info("Key " + key + " was evicted due to " + cause);
+                    })
+                    .build();
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Initialization error: {0}", e);
         }
@@ -163,7 +165,8 @@ public class CaffeineImpl extends BaseCacheImpl {
 
     @Override
     public void setToCache(String key, Object value, int objectSize, int expInSec) throws Exception {
-        long duration = TimeUnit.SECONDS.toNanos(expInSec);
+        long duration = (expInSec == 0) ? Long.MAX_VALUE : TimeUnit.SECONDS.toNanos(expInSec);
+//        logger.info("expInSec: " + expInSec + "duration: " + duration);
         CacheValue cacheValue = new CacheValue(value, duration);
         cache.put(key, cacheValue);
     }
@@ -176,6 +179,7 @@ public class CaffeineImpl extends BaseCacheImpl {
     @Override
     public void updateToCache(String key, Object value, int objectSize) throws Exception {
         //no action required here for ref based cache
+        setToCache(key, value, objectSize, 0);
     }
 
     @Override

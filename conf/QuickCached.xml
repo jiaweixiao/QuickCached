@@ -89,7 +89,7 @@
 		
 		<property>
 			<property-name>CACHE_IMPL_CLASS</property-name>
-			<!-- com.quickserverlab.quickcached.cache.impl.whirlycott.WhirlycottCacheImpl -->
+<!--			<property-value>com.quickserverlab.quickcached.cache.impl.whirlycott.WhirlycottCacheImpl</property-value>-->
 			<!-- com.quickserverlab.quickcached.cache.impl.h2database.H2CacheImpl -->
 			<!-- com.quickserverlab.quickcached.cache.impl.directbytebuffer.DirectByteBufferImpl -->
 			<!-- com.quickserverlab.quickcached.cache.impl.concurrenthashmap.ConcurrentHashMapImpl -->
